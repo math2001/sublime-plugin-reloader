@@ -4,8 +4,6 @@ import os
 import sys
 import imp
 import sublime_plugin
-from collections import namedtuple
-from .matt.say_hello import SayHelloCommand
 
 
 class ReloadPluginCommand(sublime_plugin.ApplicationCommand):
@@ -26,22 +24,19 @@ class ReloadPluginCommand(sublime_plugin.ApplicationCommand):
         base_path = os.path.dirname(main)
         pck_name = os.path.basename(base_path)
         for folder in folders:
+            sys.path.append(os.path.join(base_path, folder))
             for item in os.listdir(os.path.join(base_path, folder)):
                 root, ext = os.path.splitext(item)
                 if (os.path.isfile(os.path.join(base_path, folder, item)) and
                         ext == '.py' and root != '__init__'):
                     module = '.'.join(
                         [pck_name, folder, os.path.splitext(item)[0]])
-                    module = sys.modules.get(module, None)
-                    if module is None:
-                        continue
-                    sublime_plugin.reload_plugin(module.__name__)
+                    sublime_plugin.reload_plugin(module)
+            sys.path.pop()
         for script in scripts:
-            module = pck_name + '.' + os.path.splitext(script)[0]
-            module = sys.modules.get(module, None)
-            if module is None:
-               continue
-            sublime_plugin.reload_plugin(module.__name__)
+            module = pck_name + '.' + \
+                            (script[:-3] if script.endswith('.py') else script)
+            sublime_plugin.reload_plugin(module)
 
         module = sys.modules[pck_name + '.' + os.path.splitext(
             os.path.basename(main))[0]]

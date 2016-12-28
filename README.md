@@ -14,6 +14,8 @@ import os
 class MyPluginDevListner(sublime_plugin.EventListner):
 
     def on_post_save(self, view):
+        if os.path.dirname(__file__) not in view.file_name():
+            return
         sublime.run_command('reload_plugin', {
             'main': os.path.join(sublime.packages_path(), 'MyPlugin',
                                  'MyPlugin.py')
@@ -26,5 +28,6 @@ class MyPluginDevListner(sublime_plugin.EventListner):
 
 By default, it reloads everything twice to make sure that your dependencies are reloaded. If you have imported-importing-from-imported script or something a bit nested, you might want to increase it.
 
+Note: The `.py` in the script name is optional.
 
-BTW, if you put this command in your main file, you can use the `__file__` variable (`'main': __file__`')
+A little tip: if you put this command in your main file, you can use the `__file__` variable (`'main': __file__`')
