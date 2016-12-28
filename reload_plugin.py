@@ -21,7 +21,7 @@ class ReloadPluginCommand(sublime_plugin.ApplicationCommand):
     and 'hello.py'
     """
 
-    def run(self, main, scripts=[], folders=[], first_call=True):
+    def run(self, main, scripts=[], folders=[], times=2):
 
         base_path = os.path.dirname(main)
         pck_name = os.path.basename(base_path)
@@ -46,5 +46,5 @@ class ReloadPluginCommand(sublime_plugin.ApplicationCommand):
         module = sys.modules[pck_name + '.' + os.path.splitext(
             os.path.basename(main))[0]]
         sublime_plugin.reload_plugin(module.__name__)
-        if first_call:
-            return self.run(main, scripts, folders, first_call=False)
+        if times > 1:
+            return self.run(main, scripts, folders, times - 1)

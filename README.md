@@ -24,4 +24,4 @@ class MyPluginDevListner(sublime_plugin.EventListner):
 
 ```
 
-It reloads everything twice to make sure that your dependencies are reloaded.
+By default, it reloads everything twice to make sure that your dependencies are reloaded. If you have imported-importing-from-imported script or something a bit nested, you might want to increase it.
