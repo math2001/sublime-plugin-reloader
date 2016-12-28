@@ -45,8 +45,9 @@ class ReloadPluginCommand(sublime_plugin.ApplicationCommand):
             return self.reload(main, scripts, folders, times - 1)
 
     def run(self, main, scripts=[], folders=[], times=2, quiet=True):
-        sys.stdout.write('reload entire plugin:',
+        sys.stdout.write('reload entire plugin: ' +
               os.path.basename(os.path.dirname(main)).__repr__())
+        sys.stdout.flush()
         if quiet:
             stdout_write = sys.stdout.write
             sys.stdout.write = lambda text: "do nothing"
