@@ -39,7 +39,7 @@ A little tip: if you put this command in your main file, you can use the `__file
 ##### Using git
 
 ```bash
-cd "%APPDATA%\Roaming\Sublime Text 3\Packages"     # on window
+cd "%APPDATA%\Sublime Text 3\Packages"             # on window
 cd ~/Library/Application\ Support/Sublime\ Text\ 3 # on mac
 cd ~/.config/sublime-text-3                        # on linux
 
