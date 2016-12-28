@@ -4,6 +4,7 @@ import os
 import sys
 import imp
 import sublime_plugin
+import traceback
 
 
 class ReloadPluginCommand(sublime_plugin.ApplicationCommand):
@@ -19,8 +20,7 @@ class ReloadPluginCommand(sublime_plugin.ApplicationCommand):
     and 'hello.py'
     """
 
-    def run(self, main, scripts=[], folders=[], times=2):
-
+    def reload(self, main, scripts, folders, times):
         base_path = os.path.dirname(main)
         pck_name = os.path.basename(base_path)
         for folder in folders:
@@ -42,4 +42,17 @@ class ReloadPluginCommand(sublime_plugin.ApplicationCommand):
             os.path.basename(main))[0]]
         sublime_plugin.reload_plugin(module.__name__)
         if times > 1:
-            return self.run(main, scripts, folders, times - 1)
+            return self.reload(main, scripts, folders, times - 1)
+
+    def run(self, main, scripts=[], folders=[], times=2, quiet=True):
+        sys.stdout.write('reload entire plugin:',
+              os.path.basename(os.path.dirname(main)).__repr__())
+        if quiet:
+            stdout_write = sys.stdout.write
+            sys.stdout.write = lambda text: "do nothing"
+        try:
+            self.reload(main, scripts, folders, times)
+        except:
+            traceback.print_exc()
+        if quiet:
+            sys.stdout.write = stdout_write

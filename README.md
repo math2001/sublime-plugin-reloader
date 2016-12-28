@@ -21,7 +21,8 @@ class MyPluginDevListner(sublime_plugin.EventListner):
                                  'MyPlugin.py')
             'scripts': ['functions.py'] # at the root of your plugin,
             'folders': ['my_plugin_commands'] # all the files will be relaoded
-            'times': 2 # default value: 2
+            'times': 2 # default value: 2,
+            'quiet': True # prevent default output in the console
         })
 
 ```
@@ -31,3 +32,15 @@ By default, it reloads everything twice to make sure that your dependencies are 
 Note: The `.py` in the script name is optional.
 
 A little tip: if you put this command in your main file, you can use the `__file__` variable (`'main': __file__`')
+
+## Install
+
+##### Using git
+
+```bash
+cd "%APPDATA%\Roaming\Sublime Text 3\Packages"     # on window
+cd ~/Library/Application\ Support/Sublime\ Text\ 3 # on mac
+cd ~/.config/sublime-text-3                        # on linux
+
+git clone https://github.com/math2001/sublime-plugin-reloader reload_plugin
+```
