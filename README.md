@@ -14,7 +14,8 @@ import os
 class MyPluginDevListner(sublime_plugin.EventListner):
 
     def on_post_save(self, view):
-        if os.path.dirname(__file__) not in view.file_name():
+        if not (os.path.dirname(__file__) in view.file_name() and
+            view.file_name().endswith('.py')):
             return
         sublime.run_command('reload_plugin', {
             'main': os.path.join(sublime.packages_path(), 'MyPlugin',
